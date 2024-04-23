@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigTalkDemo</title>
+    <style>
+        #videoContainer {
+            background-color: lightgray;
+            width: 640px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        }
+
+        #video {
+            transform: scaleX(-1);  /* Flip the video horizontally */
+        }
+
+        #data {
+            width: 640px;
+            margin: auto;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .emotion-entry {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .emotion-rank {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .emotion-name {
+            flex: 1;
+        }
+
+        .emotion-score {
+            margin-left: 10px;
+        }
+
+        .emotion-level-entry {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .emotion-bar {
+            height: 20px;
+            background-color: #000;
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Welcome to BigTalkDemo</h1>
+    <div class="controls">
+        <button id="startButton">Start Camera</button>
+        <button id="stopButton">Stop Camera</button>
+    </div>
+    <div id="videoContainer">
+        <video id="video" width="640" height="480" autoplay></video>
+    </div>
+    <div id="data">
+        <div id="top-expressions"></div>
+        <div id="expression-levels"></div>
+    </div>
+
+
+
+    <script src="{% static 'home.js' %}"></script>
+</body>
+</html>
