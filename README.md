@@ -16,9 +16,6 @@ Follow these steps to set up the BigTalkDemo project on your local machine.
 1. Clone the repository to your local machine.
 
 2. Navigate to the github project directory (the outest BigTalkDemo folder).
-```sh
-cd BigTalkDemo
-```
 
 3. Create a virtual environment.
 ```sh
