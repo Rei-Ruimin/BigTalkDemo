@@ -17,12 +17,15 @@ function initWebSocket() {
     }
 }
 
+// the function that update data on receiving api response
 function onMessage(evt) {
     // Parse the JSON data
     const data = JSON.parse(evt.data);
 
     // Assuming 'data.face.predictions[0].emotions' contains the array of emotions
     const emotions = data.face.predictions[0].emotions;
+    console.log(emotions);
+
 
     // Sort the emotions by score
     emotions.sort((a, b) => b.score - a.score);
@@ -58,6 +61,7 @@ function updateEmotionsDisplay(emotions) {
                 </div>`;
     }).join('');
 
+
     
     // Map the received emotions to an object for easy access
     const emotionsMap = emotions.reduce((acc, emotion) => {
@@ -75,7 +79,7 @@ function updateEmotionsDisplay(emotions) {
     const expressionLevelsDiv = document.getElementById('expression-levels');
     expressionLevelsDiv.innerHTML = sortedEmotions.map(emotion => {
         const widthPercentage = (emotion.score * 100).toFixed(2) + '%';
-        return `<div class="emotion-level-entry">
+        return `<div class="emotion-level-entry ${emotion.name.toLowerCase()}">
                     <div class="emotion-name">${emotion.name}</div>
                     <div class="emotion-bar" style="width: ${widthPercentage}"></div>
                     <div class="emotion-score">${emotion.score.toFixed(2)}</div>
