@@ -1,0 +1,54 @@
+#videoContainer {
+    background-color: lightgray;
+    width: 640px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#video {
+    transform: scaleX(-1);  /* Flip the video horizontally */
+}
+
+#data {
+    width: 640px;
+    margin: auto;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.emotion-entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.emotion-rank {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.emotion-name {
+    flex: 1;
+}
+
+.emotion-score {
+    margin-left: 10px;
+}
+
+.emotion-level-entry {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.emotion-bar {
+    height: 20px;
+    background-color: #000;
+    margin-left: 10px;
+}
