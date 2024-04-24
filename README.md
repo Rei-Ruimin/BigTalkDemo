@@ -18,7 +18,7 @@ Follow these steps to set up the BigTalkDemo project on your local machine.
 git clone https://your-repository-url-here.com
 ```
 
-2. Navigate to the project directory.
+2. Navigate to the project directory (the outest BigTalkDemo folder).
 ```sh
 cd BigTalkDemo
 ```
@@ -47,7 +47,7 @@ pip install -r requirements.txt
 
 ## Running the Server
 
-To run the Django development server, execute the following command in the project's root directory:
+To run the Django development server, execute the following command in the project's root directory (the second BigTalkDemo foler):
 
 ```sh
 python manage.py runserver
