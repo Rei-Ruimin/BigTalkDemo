@@ -41,8 +41,12 @@ pip install -r requirements.txt
 
 ## Running the Server
 
-To run the Django development server, execute the following command in the project's root directory (the second BigTalkDemo foler):
+To run the Django development server, navigate to django project's root directory (the second BigTalkDemo foler):
+```sh
+cd BigTalkDemo
+```
 
+execute the following command
 ```sh
 python manage.py runserver
 ```
