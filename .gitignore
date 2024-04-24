@@ -1,3 +1,5 @@
+staticfiles
+BigTalkDemo/staticfiles
 venv/
 .env
 __pycache__
