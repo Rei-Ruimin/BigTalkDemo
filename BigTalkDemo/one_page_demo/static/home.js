@@ -1,6 +1,6 @@
 const video = document.getElementById('video');
 // const dataDiv = document.getElementById('data');
-const apiKey = '8ZLfLdXJolDS0rBfqcEacpLAnZPHqH37euCSdAz5uyOqGwn1';
+const apiKey = 'fDe7qukudkVAzNfG6W1VvGtrGfxd3eiDJHrQKlC9gY9Q5CQg';
 const wsUri = `wss://api.hume.ai/v0/stream/models?api_key=${apiKey}`;
 let websocket = null;
 let videoStream = null;
