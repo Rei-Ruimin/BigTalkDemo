@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "BigTalkDemo/BigTalkDemo/wsgi.py",
+      "src": "BigTalkDemo/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     },
@@ -10,7 +10,7 @@
       "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "BigTalkDemo/staticfiles"
+        "distDir": "staticfiles"
       }
     }
   ],
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "BigTalkDemo/BigTalkDemo/wsgi.py"
+      "dest": "BigTalkDemo/wsgi.py"
     }
   ]
 }
