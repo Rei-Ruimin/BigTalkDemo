@@ -9,15 +9,8 @@
     <link rel="stylesheet" href="{% static 'home.css' %}">
 </head>
 <body>
-    <div id="loadingBlock"  style="display:none;"> 
-        <h1>Loading...</h1>
-    </div>
     <div id="demoBlock">
-        <h1>Welcome to BigTalkDemo</h1>
-        <div class="controls">
-            <button id="startButton">Start Camera</button>
-            <button id="stopButton">Stop Camera</button>
-        </div>
+        <h1>Welcome to BigTalkDemo Result</h1>
         <div id="videoContainer">
             <video id="video" width="640" height="480" autoplay></video>
         </div>
@@ -26,7 +19,7 @@
             <div id="expression-levels"></div>
         </div>
 
-        <script type="module" src="{% static 'home.js' %}"></script>
+        <script src="{% static 'home.js' %}"></script>
     </div>
 </body>
 </html>

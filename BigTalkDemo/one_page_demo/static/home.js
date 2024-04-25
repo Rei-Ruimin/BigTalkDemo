@@ -1,35 +1,18 @@
+import { initWebSocket, sendFrame, closeWebSocket } from './humeApiHandler.js';
+
 const video = document.getElementById('video');
-// const dataDiv = document.getElementById('data');
-const apiKey = '8ZLfLdXJolDS0rBfqcEacpLAnZPHqH37euCSdAz5uyOqGwn1';
-const wsUri = `wss://api.hume.ai/v0/stream/models?api_key=${apiKey}`;
-let websocket = null;
+
 let videoStream = null;
+let sendInterval = null;
+
 let mediaRecorder = null;
+let recordedBlobs = null;
 
 
-function initWebSocket() {
-    if (websocket === null) {
-        websocket = new WebSocket(wsUri);
-        websocket.onopen = function(evt) { console.log("Connected to WebSocket"); };
-        websocket.onclose = function(evt) { console.log("Disconnected from WebSocket"); };
-        websocket.onmessage = function(evt) { onMessage(evt); };
-        websocket.onerror = function(evt) { console.error("WebSocket Error: " + evt.data); };
-    }
-}
+document.addEventListener('emotionsReceived', (event) => {
+    updateEmotionsDisplay(event.detail);
+});
 
-function onMessage(evt) {
-    // Parse the JSON data
-    const data = JSON.parse(evt.data);
-
-    // Assuming 'data.face.predictions[0].emotions' contains the array of emotions
-    const emotions = data.face.predictions[0].emotions;
-
-    // Sort the emotions by score
-    emotions.sort((a, b) => b.score - a.score);
-
-    // Update the UI
-    updateEmotionsDisplay(emotions);
-}
 
 const emotionOrder = [
     "Admiration", "Adoration", "Aesthetic Appreciation", "Amusement", "Anger", 
@@ -58,7 +41,7 @@ function updateEmotionsDisplay(emotions) {
                 </div>`;
     }).join('');
 
-    
+
     // Map the received emotions to an object for easy access
     const emotionsMap = emotions.reduce((acc, emotion) => {
         acc[emotion.name] = emotion.score;
@@ -84,34 +67,17 @@ function updateEmotionsDisplay(emotions) {
 }
 
 
-function startVideo() {
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            video.srcObject = stream;
-            videoStream = stream;
-            initWebSocket();
-            startSendingVideo();
-        })
-        .catch(error => {
-            console.error('Error accessing the camera.', error);
-            alert('Error accessing the camera.');
-        });
-}
-
-function stopVideo() {
-    if (video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
+async function startVideo() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        videoStream = stream;
+        initWebSocket();
+        startSendingVideo();
+    } catch (error) {
+        console.error('Error accessing the camera.', error);
+        alert('Error accessing the camera.');
     }
-    if (sendInterval) {
-        clearInterval(sendInterval);
-        sendInterval = null;
-    }
-    if (websocket) {
-        websocket.close();
-        websocket = null;
-    }
-
 }
 
 function startSendingVideo() {
@@ -120,28 +86,35 @@ function startSendingVideo() {
     canvas.height = 480;
     const ctx = canvas.getContext('2d');
 
-    function sendFrame() {
+    function sendFrameToAPI() {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.toBlob(blob => {
             const reader = new FileReader();
             reader.onload = function() {
-                const base64data = reader.result.split(',')[1];
-                const jsonPayload = JSON.stringify(
-                { 
-                    data: base64data, 
-                    models: {
-                        face: {}
-                    }
-                });
-                if (websocket && websocket.readyState === WebSocket.OPEN) {
-                    websocket.send(jsonPayload);
-                }
+                sendFrame(reader.result.split(',')[1]);
             };
             reader.readAsDataURL(blob);
         }, 'image/jpeg');
     }
 
-    sendInterval = setInterval(sendFrame, 100); // Send frames every 100ms
+
+    sendInterval = setInterval(sendFrameToAPI, 100); // Send frames every 100ms
+}
+
+
+function stopVideo() {
+
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+    }
+    if (sendInterval) {
+        clearInterval(sendInterval);
+        sendInterval = null;
+    }
+    closeWebSocket();
+    video.srcObject = null;
+    sendInterval = null;
 }
 
 document.getElementById('startButton').addEventListener('click', startVideo);
