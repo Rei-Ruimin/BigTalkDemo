@@ -55,7 +55,6 @@ def deepgramApiHandler(video_file, audio_file):
         # Handle exceptions (e.g., API errors, network issues)
         result['audio_status'] = f'Failed to transcribe audio: {str(e)}'
 
-    print(result)
     return result
 
 
