@@ -39,14 +39,12 @@ def deepgramApiHandler(video_file, audio_file):
         "Content-Type": "audio/*"
     }
 
-
-
     # Read the audio file content
     audio_content = audio_file.read()
 
     try:
         # Transcribe the audio
-        response = requests.post(url, headers=headers, data=audio_content).json()
+        response = requests.post(url, headers=headers, data=audio_content)
 
         # Store the transcription result in the result dictionary
         result['audio_result'] = process_deepgram_result(response)
@@ -60,6 +58,8 @@ def deepgramApiHandler(video_file, audio_file):
 
 
 def process_deepgram_result(data):
+    data = data.json()
+
     # Define a regular expression pattern for filler words
     filler_words_pattern = r'\b(uh|um|mhmm|mm-mm|uh-uh|uh-huh|nuh-uh)\b'
 
