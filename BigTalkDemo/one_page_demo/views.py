@@ -19,8 +19,11 @@ def handle_video(request):
         if video_file and audio_file:
             # Process the video and audio files
             response_data = deepgramApiHandler(video_file, audio_file)
-            audio_data = response_data['audio_result']
-            return render(request, 'result.html', {'data': audio_data})
+            try:
+                audio_data = response_data['audio_result']
+                return render(request, 'result.html', {'data': audio_data})
+            except Exception as e:
+                return render(request, 'result.html')
         else:
             return HttpResponse("No video or audio file uploaded.", status=400)
     return HttpResponse("Invalid request", status=400)
