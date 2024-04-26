@@ -8,7 +8,7 @@ Follow these steps to set up the BigTalkDemo project on your local machine.
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - pip (Python package installer)
 
 ### Setup
