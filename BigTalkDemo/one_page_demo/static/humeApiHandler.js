@@ -1,5 +1,5 @@
-const apiKey = '8ZLfLdXJolDS0rBfqcEacpLAnZPHqH37euCSdAz5uyOqGwn1';
-const wsUri = `wss://api.hume.ai/v0/stream/models?api_key=${apiKey}`;
+const HUME_API_KEY = '8ZLfLdXJolDS0rBfqcEacpLAnZPHqH37euCSdAz5uyOqGwn1';
+const wsUri = `wss://api.hume.ai/v0/stream/models?api_key=${HUME_API_KEY}`;
 let websocket = null;
 
 export function initWebSocket() {

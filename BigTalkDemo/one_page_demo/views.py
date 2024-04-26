@@ -5,7 +5,7 @@ import json
 import re
 import requests
 
-DEEPGRAMapiKey = '17e4f14bc5e82df0ece99c45eec4755855b27860'
+DEEPGRAM_API_KEY = '17e4f14bc5e82df0ece99c45eec4755855b27860'
 def home(request):
     return render(request, 'home.html')
 
@@ -35,7 +35,7 @@ def deepgramApiHandler(video_file, audio_file):
 
     # Define the headers for the HTTP request
     headers = {
-        "Authorization": f"Token {DEEPGRAMapiKey}",
+        "Authorization": f"Token {DEEPGRAM_API_KEY}",
         "Content-Type": "audio/*"
     }
 
