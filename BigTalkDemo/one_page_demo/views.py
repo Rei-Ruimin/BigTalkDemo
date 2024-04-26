@@ -3,9 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
 import re
-
-from deepgram import DeepgramClient, PrerecordedOptions
-
+import requests
 
 DEEPGRAMapiKey = '17e4f14bc5e82df0ece99c45eec4755855b27860'
 def home(request):
@@ -31,26 +29,24 @@ def deepgramApiHandler(video_file, audio_file):
     # Prepare the result dictionary
     result = {'video_status': f'Processed {video_file.name}'}
 
-    # Initialize the Deepgram client
-    deepgram = DeepgramClient(DEEPGRAMapiKey)
+    # Define the URL for the Deepgram API endpoint
+    # Enable filler words & smart formatting
+    url = "https://api.deepgram.com/v1/listen?model=nova-2&filler_words=true&smart_format=true"
+
+    # Define the headers for the HTTP request
+    headers = {
+        "Authorization": f"Token {DEEPGRAMapiKey}",
+        "Content-Type": "audio/*"
+    }
+
+
 
     # Read the audio file content
     audio_content = audio_file.read()
 
-    payload = {
-        "buffer": audio_content,
-    }
-    # Options for the transcription request
-    options = PrerecordedOptions(
-        model="nova-2", 
-        filler_words=True,  # Enable filler words
-        # punctuate=True,     # Enable automatic puninctuation
-        smart_format=True   # Enable smart formatting
-    )
-
     try:
         # Transcribe the audio
-        response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
+        response = requests.post(url, headers=headers, data=audio_content).json()
 
         # Store the transcription result in the result dictionary
         result['audio_result'] = process_deepgram_result(response)
@@ -65,8 +61,6 @@ def deepgramApiHandler(video_file, audio_file):
 
 
 def process_deepgram_result(data):
-    # Define filler words
-    # filler_words = set(["uh", "um", "mhmm", "mm-mm", "uh-uh", "uh-huh", "nuh-uh"])
     # Define a regular expression pattern for filler words
     filler_words_pattern = r'\b(uh|um|mhmm|mm-mm|uh-uh|uh-huh|nuh-uh)\b'
 
