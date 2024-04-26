@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="{% static 'home.css' %}">
 </head>
 <body>
+    <!-- This is just to store CSRF token in HTML -->
+    <div style="display:none;">
+        {% csrf_token %}
+    </div>
     <div id="loadingBlock"  style="display:none;"> 
         <h1>Loading...</h1>
     </div>
