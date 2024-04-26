@@ -30,6 +30,8 @@ const emotionOrder = [
     "Shame", "Surprise (negative)", "Surprise (positive)", "Sympathy", "Tiredness", 
     "Triumph"
 ];
+const shownEmotions = ["Calmness", "Joy", "Amusement", "Anger", "Confusion", "Disgust",
+    "Sadness", "Horror", "Surprise (positive)"]
 
 function updateEmotionsDisplay(emotions) {
 
@@ -166,7 +168,7 @@ function onVideoAndAudioRecordingEnd(videoFile, audioFile) {
     const loadingBlock = document.getElementById('loadingBlock');
     loadingBlock.style.display = 'block';
 
-    const demoBlock = document.getElementById('demoBlock');
+    const demoBlock = document.getElementById('main-container');
     demoBlock.style.display = 'none';
 
     const formData = new FormData();
