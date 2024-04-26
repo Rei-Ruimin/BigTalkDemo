@@ -10,7 +10,15 @@
     <h1>Results</h1>
     <div id="resultsContainer">
         {% if data %}
-            <pre>{{ data|safe }}</pre>
+            <div> 
+                <p>Transcript: </p>
+                </p>{{ data.paragraph_transcript}}</p>
+                <p>Filler Words: </p>
+                <p>{{ data.filler_words_count}}</p>
+                <p> Words Per Minute: </p>
+                <p>{{ data.words_per_minute}}</p>
+            <div>
+
         {% else %}
             <p>No data found</p>
         {% endif %}

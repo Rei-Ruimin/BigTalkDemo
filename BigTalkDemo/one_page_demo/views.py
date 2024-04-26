@@ -2,6 +2,7 @@ from time import sleep
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
+import re
 
 from deepgram import (
     DeepgramClient,
@@ -9,7 +10,7 @@ from deepgram import (
     FileSource,
 )
 
-DEEPGRAM_API_KEY = '17e4f14bc5e82df0ece99c45eec4755855b27860'
+DEEPGRAMapiKey = '17e4f14bc5e82df0ece99c45eec4755855b27860'
 def home(request):
     return render(request, 'home.html')
 
@@ -34,7 +35,7 @@ def deepgramApiHandler(video_file, audio_file):
     result = {'video_status': f'Processed {video_file.name}'}
 
     # Initialize the Deepgram client
-    deepgram = DeepgramClient(DEEPGRAM_API_KEY)
+    deepgram = DeepgramClient(DEEPGRAMapiKey)
 
     # Read the audio file content
     audio_content = audio_file.read()
@@ -68,7 +69,10 @@ def deepgramApiHandler(video_file, audio_file):
 
 def process_deepgram_result(data):
     # Define filler words
-    filler_words = set(["uh", "um", "mhmm", "mm-mm", "uh-uh", "uh-huh", "nuh-uh"])
+    # filler_words = set(["uh", "um", "mhmm", "mm-mm", "uh-uh", "uh-huh", "nuh-uh"])
+    # Define a regular expression pattern for filler words
+    filler_words_pattern = r'\b(uh|um|mhmm|mm-mm|uh-uh|uh-huh|nuh-uh)\b'
+
 
     # Variables to accumulate data
     total_filler_count = 0
@@ -79,11 +83,10 @@ def process_deepgram_result(data):
     for channel in data["results"]["channels"]:
         for alternative in channel["alternatives"]:
             transcript = alternative["transcript"].lower()
-            words = transcript.split()
-
-            # Count filler words
-            filler_count = sum(word in filler_words for word in words)
+            # Use regex to find all filler words
+            filler_count = len(re.findall(filler_words_pattern, transcript))
             total_filler_count += filler_count
+
 
             # Calculate words per minute and total transcript
             for paragraph in alternative["paragraphs"]["paragraphs"]:
