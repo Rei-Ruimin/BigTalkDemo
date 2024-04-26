@@ -4,11 +4,8 @@ from django.http import HttpResponse, JsonResponse
 import json
 import re
 
-from deepgram import (
-    DeepgramClient,
-    PrerecordedOptions,
-    FileSource,
-)
+from deepgram import DeepgramClient, PrerecordedOptions
+
 
 DEEPGRAMapiKey = '17e4f14bc5e82df0ece99c45eec4755855b27860'
 def home(request):
@@ -40,7 +37,7 @@ def deepgramApiHandler(video_file, audio_file):
     # Read the audio file content
     audio_content = audio_file.read()
 
-    payload: FileSource = {
+    payload = {
         "buffer": audio_content,
     }
     # Options for the transcription request
