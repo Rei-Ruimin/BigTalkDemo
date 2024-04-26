@@ -81,7 +81,10 @@ async function startVideo() {
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         video.srcObject = videoStream;
-        initWebSocket();
+        
+        // Get the Hume API Key from the input box
+        const humeApiKey = document.getElementById('humeApiKey').value || 'invalid-key';
+        initWebSocket(humeApiKey);
         
         videoRecorder = new MediaRecorder(videoStream);
         videoRecorder.ondataavailable = event => {
@@ -138,12 +141,23 @@ function stopVideo() {
     audioRecorder.stop();
     const audioBlob = new Blob(audioRecordedBlobs, { type: 'audio/wav' });
     const audioFile = new File([audioBlob], 'recorded.wav', { type: 'audio/wav' });
-    // downloadAudioFile(audioFile);
 
     stopTracksAndIntervals();
     closeWebSocket();
 
+    // // Combine audio and video blobs
+    // const combinedBlob = new Blob([videoBlob, audioBlob], { type: 'video/webm' });
+
+    // // Create a URL for the combined blob
+    // const url = URL.createObjectURL(combinedBlob);
+
+    // // Save the URL somewhere it can be accessed from another HTML file
+    // // This could be a database, a file, or any other storage solution
+    // // For simplicity, we'll use localStorage
+    // localStorage.setItem('recordedVideoUrl', url);
+
     onVideoAndAudioRecordingEnd(videoFile, audioFile);
+
 }
 
 function stopTracksAndIntervals() {
