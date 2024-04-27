@@ -2,38 +2,46 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BigTalkDemo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'home.css' %}">
+
 </head>
+
 <body>
     <!-- This is just to store CSRF token in HTML -->
     <div style="display:none;">
         {% csrf_token %}
     </div>
-    <div id="loadingBlock"  style="display:none;"> 
-        <h1>Loading...</h1>
+    <div id="loadingBlock" style="display:none;">
+        <h1 class="title is-1">Loading...</h1>
     </div>
-    <div id="demoBlock">
-        <h1>Welcome to BigTalkDemo</h1>
-        <label for="humeApiKey">Hume API Key:</label>
-        <input type="text" id="humeApiKey" name="humeApiKey">
-        
-        <div class="controls">
-            <button id="startButton">Start Camera</button>
-            <button id="stopButton">Stop Camera</button>
+    <div class="columns" id="demoBlock">
+        <div class="column">
+            <h1 class="title is-1">Welcome to BigTalkDemo</h1>
+            <label for="humeApiKey">Hume API Key:</label>
+            <input type="text" id="humeApiKey" name="humeApiKey">
+
+            <div class="controls">
+                <button id="startButton">Start Camera</button>
+                <button id="stopButton">Stop Camera</button>
+            </div>
+            <div id="videoContainer">
+                <video id="video" width="640" height="480" autoplay></video>
+            </div>
         </div>
-        <div id="videoContainer">
-            <video id="video" width="640" height="480" autoplay></video>
-        </div>
-        <div id="data">
-            <div id="top-expressions"></div>
-            <div id="expression-levels"></div>
-        </div>
+
+            <div id="data">
+                <div id="top-expressions"></div>
+                <div id="expression-levels"></div>
+            </div>
 
         <script type="module" src="{% static 'home.js' %}"></script>
     </div>
 </body>
+
 </html>

@@ -20,14 +20,14 @@ document.addEventListener('emotionsReceived', (event) => {
 
 
 const emotionOrder = [
-    "Admiration", "Adoration", "Aesthetic Appreciation", "Amusement", "Anger", 
-    "Anxiety", "Awe", "Awkwardness", "Boredom", "Calmness", "Concentration", 
-    "Contemplation", "Confusion", "Contempt", "Contentment", "Craving", 
-    "Determination", "Disappointment", "Disgust", "Distress", "Doubt", "Ecstasy", 
-    "Embarrassment", "Empathic Pain", "Entrancement", "Envy", "Excitement", "Fear", 
-    "Guilt", "Horror", "Interest", "Joy", "Love", "Nostalgia", "Pain", "Pride", 
-    "Realization", "Relief", "Romance", "Sadness", "Satisfaction", "Desire", 
-    "Shame", "Surprise (negative)", "Surprise (positive)", "Sympathy", "Tiredness", 
+    "Admiration", "Adoration", "Aesthetic Appreciation", "Amusement", "Anger",
+    "Anxiety", "Awe", "Awkwardness", "Boredom", "Calmness", "Concentration",
+    "Contemplation", "Confusion", "Contempt", "Contentment", "Craving",
+    "Determination", "Disappointment", "Disgust", "Distress", "Doubt", "Ecstasy",
+    "Embarrassment", "Empathic Pain", "Entrancement", "Envy", "Excitement", "Fear",
+    "Guilt", "Horror", "Interest", "Joy", "Love", "Nostalgia", "Pain", "Pride",
+    "Realization", "Relief", "Romance", "Sadness", "Satisfaction", "Desire",
+    "Shame", "Surprise (negative)", "Surprise (positive)", "Sympathy", "Tiredness",
     "Triumph"
 ];
 
@@ -81,11 +81,11 @@ async function startVideo() {
         audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         video.srcObject = videoStream;
-        
+
         // Get the Hume API Key from the input box
         const humeApiKey = document.getElementById('humeApiKey').value || 'invalid-key';
         initWebSocket(humeApiKey);
-        
+
         videoRecorder = new MediaRecorder(videoStream);
         videoRecorder.ondataavailable = event => {
             if (event.data && event.data.size > 0) {
@@ -119,7 +119,7 @@ function startSendingVideo() {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         canvas.toBlob(blob => {
             const reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 sendFrame(reader.result.split(',')[1]);
             };
             reader.readAsDataURL(blob);
@@ -194,16 +194,16 @@ function onVideoAndAudioRecordingEnd(videoFile, audioFile) {
             'X-CSRFToken': getCsrfToken()
         }
     }).then(response => response.text())
-      .then(html => {
-        document.open();
-        document.write(html);
-        document.close();
-    }).catch(error => {
-        console.error('Error:', error);
-        alert('Failed to upload video and audio');
-        loadingBlock.style.display = 'none';
-        demoBlock.style.display = 'block';
-    });
+        .then(html => {
+            document.open();
+            document.write(html);
+            document.close();
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('Failed to upload video and audio');
+            loadingBlock.style.display = 'none';
+            demoBlock.style.display = 'block';
+        });
 }
 
 document.getElementById('startButton').addEventListener('click', startVideo);
