@@ -1,8 +1,6 @@
 # BigTalkDemo
 
-BigTalkDemo is a Django application that displays real-time video from the user's camera and uses the Hume API to analyze and display facial expressions.
-
-
+BigTalkDemo is a Django application that displays real-time video from the user's camera and uses [HumeAI](https://www.hume.ai/) and [Deepgram](https://deepgram.com/) to analyze facial expressions, talking speed and filler word count.
 
 ## Installation
 
@@ -69,10 +67,12 @@ BigTalkDemo is also deployed on Vercel and can be accessed via [https://big-talk
 
 The maximum payload size for the request body or the response body of a Serverless Function is 4.5 MB. Here are other relevant limits when working with Vercel's serverless functions:
 
-- **Maximum URL length**: 14 KB
-- **Maximum request body length**: 4 MB
-- **Maximum number of request headers**: 64
-- **Maximum request headers length**: 16 KB
+| Name                           | Limit      |
+| ------------------------------ | ---------- |
+| Maximum URL length             | 14 KB      |
+| **Maximum request body length** | 4 MB       |
+| Maximum number of request headers | 64       |
+| Maximum request headers length | 16 KB      |
 
 If a Serverless Function receives a payload exceeding this limit, it will return an error `413: FUNCTION_PAYLOAD_TOO_LARGE`. This could occur if the audio data from a prolonged recording session is too large.
 
@@ -80,7 +80,8 @@ If a Serverless Function receives a payload exceeding this limit, it will return
 
 When using the application, if the audio data is too large (i.e., the recording is too long), it may trigger a `FUNCTION_PAYLOAD_TOO_LARGE` error. To avoid this:
 
-- Limit the duration of recordings to ensure the size remains within the allowable range.
+- **Limit the duration of recordings to ensure the size remains within the allowable range.**
+- **According to the test, the maximum limit is around 18 words. Try not to say more than this word limit during usage.**
 
 ## Local Setup Recommended for Full Experience
 
