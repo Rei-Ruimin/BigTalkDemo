@@ -1,6 +1,6 @@
 # BigTalkDemo
 
-BigTalkDemo is a Django application that displays real-time video from the user's camera and uses [HumeAI](https://www.hume.ai/) and [Deepgram](https://deepgram.com/) to analyze facial expressions, talking speed and filler word count.
+BigTalkDemo is a Django application that displays real-time video from the user's camera and uses [HumeAI](https://www.hume.ai/) and [Deepgram](https://deepgram.com/) to analyze facial expressions, talking speed and filler words count.
 
 ## Installation
 
@@ -37,6 +37,19 @@ python3 -m venv venv
     ```sh
     .\venv\Scripts\activate
     ```
+**Alternative Way Using pyenv:** If you prefer to manage multiple Python versions, you can use pyenv to install and manage your Python environment. You can find the installation instructions [here](https://github.com/pyenv/pyenv#installation)
+a. Install Python 3.10 using pyenv (if not already installed):
+```sh
+pyenv install 3.10.2
+```
+b. Create a virtual environment
+```sh
+pyenv virtualenv 3.10.2 venv
+```
+c. Activate
+```sh
+pyenv activate venv
+```
 
 5. Install the required packages.
 ```sh
@@ -65,7 +78,7 @@ BigTalkDemo is also deployed on Vercel and can be accessed via [https://big-talk
 
 ### Vercel Limitations
 
-The maximum payload size for the request body or the response body of a Serverless Function is 4.5 MB. Here are other relevant limits when working with Vercel's serverless functions:
+The maximum payload size for the request body or the response body of a Serverless Function is 4 MB. Here are other relevant limits when working with Vercel's serverless functions:
 
 | Name                           | Limit      |
 | ------------------------------ | ---------- |
