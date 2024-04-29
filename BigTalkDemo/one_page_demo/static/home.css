@@ -55,6 +55,7 @@
     color: var(--black);
     font-size: 32px;
     font-weight: 500;
+    font-family: PP Neue Montreal, sans-serif;
 }
 
 .logo_image {
@@ -88,8 +89,50 @@
     overflow: hidden;
 }
 
+@media screen and (max-width: 767px) {
+    .hero_content-container {
+        width: 100%;
+    }
+}
+.hero_content-container {
+    z-index: 1;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2rem;
+    flex-flow: column;
+    align-items: flex-start;
+    width: 40rem;
+    display: flex;
+    position: relative;
+}
+
+@media screen and (max-width: 767px) {
+    .hero_image {
+        top: 20%;
+    }
+}
+@media screen and (max-width: 991px) {
+    .hero_image {
+        width: 100%;
+        top: 10%;
+        bottom: 0%;
+        left: 40%;
+        right: 0%;
+    }
+}
+.hero_image {
+    z-index: 0;
+    opacity: .65;
+    width: 70%;
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    left: 50%;
+    right: 0%;
+}
+
 .span_highlight {
     color: var(--blue);
+    font-family: PP Neue Montreal, sans-serif;
 }
 
 .button {
@@ -146,4 +189,8 @@
     height: 20px;
     background-color: #000;
     margin-left: 10px;
+}
+
+.result-section{
+    margin-bottom: 2.5rem;
 }
