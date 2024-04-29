@@ -210,5 +210,23 @@ function onVideoAndAudioRecordingEnd(videoFile, audioFile) {
         });
 }
 
-document.getElementById('startButton').addEventListener('click', startVideo);
-document.getElementById('stopButton').addEventListener('click', stopVideo);
+// Get the button element
+let button = document.getElementById('recordButton');
+let isRecording = false;
+
+button.addEventListener('click', async function() {
+    if (!isRecording) {
+        button.disabled = true;
+        await startVideo();
+        // Wait for the video metadata to load
+        video.onloadedmetadata = function() {
+            button.disabled = false;
+        };
+        button.innerText = 'Stop Recording';
+        isRecording = true;
+    } else {
+        stopVideo();
+        button.innerText = 'Start Recording';
+        isRecording = false;
+    }
+});
