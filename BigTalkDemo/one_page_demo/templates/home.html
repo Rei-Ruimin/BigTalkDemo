@@ -17,31 +17,86 @@
     <div style="display:none;">
         {% csrf_token %}
     </div>
-    <div id="loadingBlock" style="display:none;">
-        <h1 class="title is-1">Loading...</h1>
-    </div>
-    <div class="columns" id="demoBlock">
-        <div class="column">
-            <h1 class="title is-1">Welcome to BigTalkDemo</h1>
-            <label for="humeApiKey">Hume API Key:</label>
-            <input type="text" id="humeApiKey" name="humeApiKey">
-
-            <div class="controls">
-                <button id="startButton">Start Camera</button>
-                <button id="stopButton">Stop Camera</button>
+    <div class="navbar">
+        <a href="http://www.bigtalk.app" class="logo">
+            <img src="https://assets-global.website-files.com/65ff336352ec61fb42e5149c/661b118ef13e333115108553_logo_eye.svg"
+                loading="lazy" class="logo_image">
+            <div>
+                <div class="logo_text">BigTalk</div>
             </div>
-            <div id="videoContainer">
-                <video id="video" width="640" height="480" autoplay></video>
+        </a>
+    </div>
+    <div class="hero">
+        <div class="container">
+            <div id="loadingBlock" style="display:none;">
+                <h1 class="title is-1">Loading...</h1>
+            </div>
+            <div id="demoBlock">
+                <h1 class="title is-2 has-text-centered">Welcome to
+                    <span class="span_highlight">BigTalkDemo</span>
+                </h1>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="humeApiKey">Key:</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control">
+                                <input class="input" type="text" placeholder="Hume API Key" id="humeApiKey"
+                                    name="humeApiKey" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls has-text-centered">
+                    <button class="button" id="startButton">Start Camera</button>
+                    <button class="button" id="stopButton">Stop Camera</button>
+                </div>
+                <div class="columns m-3">
+                    <div class="column">
+                        <div id="videoContainer">
+                            <video id="video" width="640" height="480" autoplay></video>
+                        </div>
+                    </div>
+                    <div class="column" style="margin-left: 1rem; background-color:#fff;border-radius:.25rem;
+                        box-shadow:0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
+                        color:#4a4a4a;max-width:100%;position:relative">
+                        <div class="tabs is-centered">
+                            <ul>
+                                <li class="is-active"><a>Facial expression</a></li>
+                                <li><a>To be released</a></li>
+                                <li><a>To be released</a></li>
+                            </ul>
+                        </div>
+                        <div class="columns" id="data">
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">Top expressions</p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div id="top-expressions">Waiting for detections...</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">Expression levels</p>
+                                    </header>
+                                    <div class="card-content">
+                                        <div id="expression-levels">Waiting for detections...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-            <div id="data">
-                <div id="top-expressions"></div>
-                <div id="expression-levels"></div>
-            </div>
-
-        <script type="module" src="{% static 'home.js' %}"></script>
     </div>
 </body>
+<script type="module" src="{% static 'home.js' %}"></script>
 
 </html>

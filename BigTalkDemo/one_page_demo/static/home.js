@@ -31,6 +31,9 @@ const emotionOrder = [
     "Triumph"
 ];
 
+const shownEmotions = ["Calmness", "Joy", "Amusement", "Anger", "Confusion", "Disgust",
+    "Sadness", "Horror", "Surprise (positive)"]
+
 function updateEmotionsDisplay(emotions) {
 
     // Sort the emotions by score
@@ -51,13 +54,14 @@ function updateEmotionsDisplay(emotions) {
 
 
     // Map the received emotions to an object for easy access
-    const emotionsMap = emotions.reduce((acc, emotion) => {
+    const displayedEmotions = emotions.filter(emotion => shownEmotions.includes(emotion.name));
+    const emotionsMap = displayedEmotions.reduce((acc, emotion) => {
         acc[emotion.name] = emotion.score;
         return acc;
     }, {});
 
     // Sort emotions by the predefined order and update the display
-    const sortedEmotions = emotionOrder.map(name => ({
+    const sortedEmotions = shownEmotions.map(name => ({
         name,
         score: emotionsMap[name] || 0 // Fallback to 0 if the emotion is not present
     }));
