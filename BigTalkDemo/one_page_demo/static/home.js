@@ -98,11 +98,7 @@ async function startVideo() {
         };
         videoRecorder.start(500); // collect data every 500ms
 
-        const audioOptions = {
-            mimeType: 'audio/webm; codecs=opus', // Opus is known for good compression
-            bitsPerSecond: 16000 // Reduce this value to lower audio quality and size
-        };
-        audioRecorder = new MediaRecorder(audioStream, audioOptions);
+        audioRecorder = new MediaRecorder(audioStream);
         audioRecorder.ondataavailable = event => {
             if (event.data && event.data.size > 0) {
                 audioRecordedBlobs.push(event.data);
