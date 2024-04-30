@@ -52,7 +52,7 @@ function updateEmotionsDisplay(emotions) {
                 </div>`;
     }).join('');
 
-
+    /*
     // Map the received emotions to an object for easy access
     const displayedEmotions = emotions.filter(emotion => shownEmotions.includes(emotion.name));
     const emotionsMap = displayedEmotions.reduce((acc, emotion) => {
@@ -75,7 +75,7 @@ function updateEmotionsDisplay(emotions) {
                     <div class="emotion-bar" style="width: ${widthPercentage}"></div>
                     <div class="emotion-score">${emotion.score.toFixed(2)}</div>
                 </div>`;
-    }).join('');
+    }).join('');*/
 }
 
 
