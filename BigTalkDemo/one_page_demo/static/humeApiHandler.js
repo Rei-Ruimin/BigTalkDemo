@@ -1,10 +1,11 @@
 const HUME_API_KEY = '8ZLfLdXJolDS0rBfqcEacpLAnZPHqH37euCSdAz5uyOqGwn1';
 let websocket = null;
 
-export function initWebSocket(INPUT_API_KEY) {
+//export function initWebSocket(INPUT_API_KEY) {
+export function initWebSocket() {
     if (!websocket) {
         // HUME_API_KEY = INPUT_API_KEY || HUME_API_KEY;
-        const wsUri = `wss://api.hume.ai/v0/stream/models?api_key=${INPUT_API_KEY}`;
+        const wsUri = `wss://api.hume.ai/v0/stream/models?api_key=${HUME_API_KEY}`;
 
         websocket = new WebSocket(wsUri);
         websocket.onopen = () => console.log("Connected to WebSocket");

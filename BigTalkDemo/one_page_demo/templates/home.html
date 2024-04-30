@@ -35,51 +35,48 @@
                 <h1 class="title is-2 has-text-centered" style="font-family: PP Neue Montreal, sans-serif;">Welcome to
                     <span class="span_highlight">BigTalkDemo</span>
                 </h1>
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label" for="humeApiKey">Key:</label>
+                <div class="recordingContainer">
+                    <div id="videoContainer">
+                        <video id="video" width="640" height="480" autoplay></video>
+                        <div id="prompt-question">Could you tell me about yourself and describe your background in brief?</div>
+                        <div id="current-emotion">Current Emotion: <span id="top-expressions">Undefined</span></div>
                     </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <p class="control">
-                                <input class="input" type="text" placeholder="Hume API Key" id="humeApiKey"
-                                    name="humeApiKey" />
-                            </p>
-                        </div>
+                    <div class="controls has-text-centered">
+                        <button class="button is-primary" id="recordButton">Start Recording</button>
                     </div>
                 </div>
-
-                <div class="controls has-text-centered">
-                    <button class="button" id="recordButton">Start Camera</button>
-                </div>
-                <div class="columns m-3">
-                    <div class="column">
-                        <div id="videoContainer">
-                            <video id="video" width="640" height="480" autoplay></video>
-                        </div>
+                <!--<div id="promptQuestion">Question will be displayed here.</div>
+                    <div class="controls has-text-centered">
+                        <button class="button" id="recordButton">Start Camera</button>
                     </div>
-                    <div class="column" style="margin-left: 1rem; background-color:#fff;border-radius:.25rem;
+                    <div class="columns m-3">
+                        <div class="column">
+                            <div id="videoContainer">
+                                <video id="video" width="640" height="480" autoplay></video>
+                            </div>
+                        </div>
+                        <div class="overlay" style="margin-left: 1rem; background-color:#fff;border-radius:.25rem;
                         box-shadow:0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
                         color:#4a4a4a;max-width:100%;position:relative">
-                        <div class="tabs is-centered">
-                            <ul>
-                                <li class="is-active"><a>Facial expression</a></li>
-                                <li><a>To be released</a></li>
-                                <li><a>To be released</a></li>
-                            </ul>
-                        </div>
-                        <div class="columns" id="data">
-                            <div class="column">
-                                <div class="card">
-                                    <header class="card-header">
-                                        <p class="card-header-title">Top expressions</p>
-                                    </header>
-                                    <div class="card-content">
-                                        <div id="top-expressions">Waiting for detections...</div>
+                            <div class="tabs is-centered">
+                                <ul>
+                                    <li class="is-active"><a>Facial expression</a></li>
+                                    <li><a>To be released</a></li>
+                                    <li><a>To be released</a></li>
+                                </ul>
+                            </div>
+                            <div class="columns" id="data">
+                                <div class="column">
+                                    <div class="card">
+                                        <header class="card-header">
+                                            <p class="card-header-title">Top expressions</p>
+                                        </header>
+                                        <div class="card-content">
+                                            <div id="top-expressions">Waiting for detections...</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!--<div class="column">
+                                <div class="column">
                                 <div class="card">
                                     <header class="card-header">
                                         <p class="card-header-title">Expression levels</p>
@@ -88,12 +85,13 @@
                                         <div id="expression-levels">Waiting for detections...</div>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </div>-->
             </div>
         </div>
+    </div>
     </div>
 </body>
 <script type="module" src="{% static 'home.js' %}"></script>

@@ -35,6 +35,15 @@ const shownEmotions = ["Calmness", "Joy", "Amusement", "Anger", "Confusion", "Di
     "Sadness", "Horror", "Surprise (positive)"]
 
 function updateEmotionsDisplay(emotions) {
+    emotions.sort((a, b) => b.score - a.score);
+    const topEmotions = emotions.slice(0, 1);
+    const topExpressionsDiv = document.getElementById('top-expressions');
+    topExpressionsDiv.innerHTML = topEmotions.map((emotion, index) => {
+        return `${emotion.name}`;
+    }).join('');
+}
+
+/*function updateEmotionsDisplay(emotions) {
 
     // Sort the emotions by score
     emotions.sort((a, b) => b.score - a.score);
@@ -52,7 +61,7 @@ function updateEmotionsDisplay(emotions) {
                 </div>`;
     }).join('');
 
-    /*
+    
     // Map the received emotions to an object for easy access
     const displayedEmotions = emotions.filter(emotion => shownEmotions.includes(emotion.name));
     const emotionsMap = displayedEmotions.reduce((acc, emotion) => {
@@ -75,8 +84,8 @@ function updateEmotionsDisplay(emotions) {
                     <div class="emotion-bar" style="width: ${widthPercentage}"></div>
                     <div class="emotion-score">${emotion.score.toFixed(2)}</div>
                 </div>`;
-    }).join('');*/
-}
+    }).join('');
+}*/
 
 
 async function startVideo() {
@@ -87,8 +96,9 @@ async function startVideo() {
         video.srcObject = videoStream;
 
         // Get the Hume API Key from the input box
-        const humeApiKey = document.getElementById('humeApiKey').value || 'invalid-key';
-        initWebSocket(humeApiKey);
+        // const humeApiKey = document.getElementById('humeApiKey').value || 'invalid-key';
+        // initWebSocket(humeApiKey);
+        initWebSocket();
 
         videoRecorder = new MediaRecorder(videoStream);
         videoRecorder.ondataavailable = event => {
@@ -105,6 +115,13 @@ async function startVideo() {
             }
         };
         audioRecorder.start(500); // collect data every 500ms
+
+        const videoContainer = document.getElementById('videoContainer');
+        videoContainer.style.backgroundColor = 'white';
+        const promptQuestion = document.getElementById('prompt-question');
+        promptQuestion.style.display = 'flex';
+        const currentEmotion = document.getElementById('current-emotion');
+        currentEmotion.style.display = 'flex';
 
         startSendingVideo();
     } catch (error) {
@@ -222,7 +239,8 @@ button.addEventListener('click', async function() {
         video.onloadedmetadata = function() {
             button.disabled = false;
         };
-        button.innerText = 'Stop Recording';
+        button.innerText = 'End Recording';
+        button.style.backgroundColor = "#ff5c5c"
         isRecording = true;
     } else {
         stopVideo();
