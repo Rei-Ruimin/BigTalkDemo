@@ -21,19 +21,24 @@ def handle_video(request):
     if request.method == 'POST':
         video_file = request.FILES.get('videoFile')
         audio_file = request.FILES.get('audioFile')
+        media_file = request.FILES.get('mediaFile')
         if video_file and audio_file:
             
 
             # Save video and audio files
-            video_path = default_storage.save('videos/video.webm', video_file)
+            video_path = default_storage.save('images/video.webm', video_file)
             audio_path = default_storage.save('audios/audio.wav', audio_file)
+
+            media_path = 'video/meida.mp4'
+            if default_storage.exists(media_path):
+                default_storage.delete(media_path)
+                
+            default_storage.save(media_path, media_file)
 
             # Convert to absolute paths
             abs_video_path = os.path.join(settings.MEDIA_ROOT, video_path)
             abs_audio_path = os.path.join(settings.MEDIA_ROOT, audio_path)
 
-            print("Absolute video path:", abs_video_path)
-            print("Absolute audio path:", abs_audio_path)
 
             # Create ffmpeg input streams
             video_input = ffmpeg.input(abs_video_path)
@@ -44,7 +49,7 @@ def handle_video(request):
             # Combine video and audio streams
             ffmpeg.concat(video_input, audio_input, v=1, a=1).output(output_path).run(overwrite_output=True)
             # Process the video and audio files
-            combined_url = default_storage.url('combined.mp4')
+            combined_url = default_storage.url(media_path)
 
             # Delete the original files to free up space
             default_storage.delete(video_path)

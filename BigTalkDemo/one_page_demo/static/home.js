@@ -9,9 +9,11 @@ let sendInterval = null;
 
 let videoRecorder = null;
 let audioRecorder = null;
+let mediaRecorder = null;
 
 let videoRecordedBlobs = [];
 let audioRecordedBlobs = [];
+let recordedBlobs = [];
 
 
 document.addEventListener('emotionsReceived', (event) => {
@@ -100,21 +102,35 @@ async function startVideo() {
         // initWebSocket(humeApiKey);
         initWebSocket();
 
+        let combinedStream = new MediaStream([...videoStream.getTracks(), ...audioStream.getTracks()]);
+
+        
+        // Create a single MediaRecorder instance for the combined stream
+        mediaRecorder = new MediaRecorder(combinedStream);
+        mediaRecorder.ondataavailable = event => {
+            if (event.data && event.data.size > 0) {
+                recordedBlobs.push(event.data);
+            }
+        };
+
+        // Start recording
+        await mediaRecorder.start(500);
         videoRecorder = new MediaRecorder(videoStream);
         videoRecorder.ondataavailable = event => {
             if (event.data && event.data.size > 0) {
                 videoRecordedBlobs.push(event.data);
             }
         };
-        videoRecorder.start(500); // collect data every 500ms
-
         audioRecorder = new MediaRecorder(audioStream);
         audioRecorder.ondataavailable = event => {
             if (event.data && event.data.size > 0) {
                 audioRecordedBlobs.push(event.data);
             }
         };
-        audioRecorder.start(500); // collect data every 500ms
+        
+        // Start video and audio recording simultaneously
+        await Promise.all([videoRecorder.start(500), audioRecorder.start(500)]);
+
 
         const videoContainer = document.getElementById('videoContainer');
         videoContainer.style.backgroundColor = 'white';
@@ -155,30 +171,23 @@ function startSendingVideo() {
 
 
 function stopVideo() {
-    videoRecorder.stop();
-    const videoBlob = new Blob(videoRecordedBlobs, { type: 'video/webm' });
-    const videoFile = new File([videoBlob], 'recorded.webm', { type: 'video/webm' });
+    Promise.all([videoRecorder.stop(), audioRecorder.stop()]).then(() => {
+        const videoBlob = new Blob(videoRecordedBlobs, { type: 'video/webm' });
+        const videoFile = new File([videoBlob], 'recorded.webm', { type: 'video/webm' });
 
-    audioRecorder.stop();
-    const audioBlob = new Blob(audioRecordedBlobs, { type: 'audio/wav' });
-    const audioFile = new File([audioBlob], 'recorded.wav', { type: 'audio/wav' });
+        const audioBlob = new Blob(audioRecordedBlobs, { type: 'audio/wav' });
+        const audioFile = new File([audioBlob], 'recorded.wav', { type: 'audio/wav' });
 
-    stopTracksAndIntervals();
-    closeWebSocket();
 
-    // // Combine audio and video blobs
-    // const combinedBlob = new Blob([videoBlob, audioBlob], { type: 'video/webm' });
+        mediaRecorder.stop();
+        const mediaBlob = new Blob(recordedBlobs, { type: 'video/mp4' });
+        const mediaFile = new File([mediaBlob], 'recorded.mp4', { type: 'video/mp4' });
 
-    // // Create a URL for the combined blob
-    // const url = URL.createObjectURL(combinedBlob);
+        stopTracksAndIntervals();
+        closeWebSocket();
 
-    // // Save the URL somewhere it can be accessed from another HTML file
-    // // This could be a database, a file, or any other storage solution
-    // // For simplicity, we'll use localStorage
-    // localStorage.setItem('recordedVideoUrl', url);
-
-    onVideoAndAudioRecordingEnd(videoFile, audioFile);
-
+        onVideoAndAudioRecordingEnd(videoFile, audioFile, mediaFile);
+    });
 }
 
 function stopTracksAndIntervals() {
@@ -197,7 +206,7 @@ function getCsrfToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]').value;
 }
 
-function onVideoAndAudioRecordingEnd(videoFile, audioFile) {
+function onVideoAndAudioRecordingEnd(videoFile, audioFile, mediaFile) {
     const loadingBlock = document.getElementById('loadingBlock');
     loadingBlock.style.display = 'block';
 
@@ -207,6 +216,8 @@ function onVideoAndAudioRecordingEnd(videoFile, audioFile) {
     const formData = new FormData();
     formData.append('videoFile', videoFile);
     formData.append('audioFile', audioFile);
+    formData.append('mediaFile', mediaFile);
+
 
     fetch('/upload/', {
         method: 'POST',
