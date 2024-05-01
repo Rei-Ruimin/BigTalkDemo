@@ -162,14 +162,11 @@
 }
 
 .sentiment-positive { 
-    background-color: rgb(214, 238, 201); 
-    opacity: 0.3;
+    background-color: rgba(214, 238, 201, 0.3); 
 }
 .sentiment-negative {  
-    background-color: rgb(255, 209, 209); 
-    opacity: 0.3;
+    background-color: rgba(255, 209, 209, 0.3); 
 }
 .sentiment-neutral { 
-    background-color: lightgoldenrodyellow;
-    opacity: 0.3;
+    background-color: rgba(252, 255, 195, 0.3);
 }
