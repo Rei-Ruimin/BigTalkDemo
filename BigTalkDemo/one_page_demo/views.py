@@ -4,6 +4,9 @@ from django.http import HttpResponse, JsonResponse
 import json
 import re
 import requests
+import ffmpeg
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 DEEPGRAM_API_KEY = '17e4f14bc5e82df0ece99c45eec4755855b27860'
 def home(request):
@@ -19,11 +22,21 @@ def handle_video(request):
         if video_file and audio_file:
             # Process the video and audio files
             response_data = deepgramApiHandler(video_file, audio_file)
+
+            # generate recorded video url
+            video_path = default_storage.save('tmp/video.webm', video_file)
+            audio_path = default_storage.save('tmp/audio.wav', audio_file)
+            # Create ffmpeg input streams from the saved files
+            video_input = ffmpeg.input(video_path)
+            audio_input = ffmpeg.input(audio_path)
+            output_path = 'tmp/combined.mp4'
+            # Combine video and audio streams
+            ffmpeg.concat(video_input, audio_input, v=1, a=1).output(output_path).run(overwrite_output=True)
             try:
                 audio_data = response_data['audio_result']
-                return render(request, 'result.html', {'data': audio_data})
+                return render(request, 'result.html', {'data': audio_data, 'combined_url': output_path})
             except Exception as e:
-                return render(request, 'result.html')
+                return render(request, 'result.html', {'combined_url': output_path})
         else:
             return HttpResponse("No video or audio file uploaded.", status=400)
     return HttpResponse("Invalid request", status=400)
