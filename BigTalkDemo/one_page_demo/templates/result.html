@@ -1,0 +1,50 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="http://www.bigtalk.app" class="logo">
+            <img src="https://assets-global.website-files.com/65ff336352ec61fb42e5149c/661b118ef13e333115108553_logo_eye.svg"
+                loading="lazy" class="logo_image">
+            <div>
+                <div class="logo_text">BigTalk</div>
+            </div>
+        </a>
+    </div>
+    <div class="hero">
+        <div class="hero_content-container">
+            <h1 class="title is-2 has-text-centered">Results</h1>
+            <div class="content is-medium" id="resultsContainer">
+                {% if data %}
+                <div class="result-section">
+                    <h4>Transcript: </h4>
+                    <p>{{ data.paragraph_transcript }}</p>
+                </div>
+                <div class="result-section">
+                    <h4>Filler words count: </h4>
+                    <p>{{ data.filler_words_count }}</p>
+                </div>
+                <div class="result-section">
+                    <h4>Words per minute: </h4>
+                    <p>{{ data.words_per_minute }}</p>
+                </div>
+                {% else %}
+                <p>No Audio Data Found</p>
+                {% endif %}
+            </div>
+        </div>
+        <img src="https://assets-global.website-files.com/65ff336352ec61fb42e5149c/661b4e5b933c5e837948e5ee_gradient_blob.svg"
+            loading="lazy" id="w-node-c86da778-29c0-b177-e3f4-e8daf5c363fa-42e514a4" alt="" class="hero_image">
+    </div>
+</body>
+
+</html>
