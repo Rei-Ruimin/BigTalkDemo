@@ -1,6 +1,6 @@
 # BigTalkDemo
 
-BigTalkDemo is a Django application that displays real-time video from the user's camera and uses [HumeAI](https://www.hume.ai/) and [Deepgram](https://deepgram.com/) to analyze facial expressions, talking speed, and filler words count.
+BigTalkDemo is a Django application that displays real-time video from the user's camera and uses [HumeAI](https://www.hume.ai/) and [Deepgram](https://deepgram.com/) to analyze facial expressions, talking speed, and filler word count.
 
 ## Installation
 
