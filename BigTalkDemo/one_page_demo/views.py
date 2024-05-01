@@ -7,6 +7,8 @@ import requests
 import ffmpeg
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+import os
+from django.conf import settings
 
 DEEPGRAM_API_KEY = '17e4f14bc5e82df0ece99c45eec4755855b27860'
 def home(request):
@@ -20,23 +22,41 @@ def handle_video(request):
         video_file = request.FILES.get('videoFile')
         audio_file = request.FILES.get('audioFile')
         if video_file and audio_file:
-            # Process the video and audio files
-            response_data = deepgramApiHandler(video_file, audio_file)
+            
 
-            # generate recorded video url
-            video_path = default_storage.save('tmp/video.webm', video_file)
-            audio_path = default_storage.save('tmp/audio.wav', audio_file)
-            # Create ffmpeg input streams from the saved files
-            video_input = ffmpeg.input(video_path)
-            audio_input = ffmpeg.input(audio_path)
-            output_path = 'tmp/combined.mp4'
+            # Save video and audio files
+            video_path = default_storage.save('videos/video.webm', video_file)
+            audio_path = default_storage.save('audios/audio.wav', audio_file)
+
+            # Convert to absolute paths
+            abs_video_path = os.path.join(settings.MEDIA_ROOT, video_path)
+            abs_audio_path = os.path.join(settings.MEDIA_ROOT, audio_path)
+
+            print("Absolute video path:", abs_video_path)
+            print("Absolute audio path:", abs_audio_path)
+
+            # Create ffmpeg input streams
+            video_input = ffmpeg.input(abs_video_path)
+            audio_input = ffmpeg.input(abs_audio_path)
+            
+            # Output path within the media directory
+            output_path = os.path.join(settings.MEDIA_ROOT, 'combined.mp4')
             # Combine video and audio streams
             ffmpeg.concat(video_input, audio_input, v=1, a=1).output(output_path).run(overwrite_output=True)
+            # Process the video and audio files
+            combined_url = default_storage.url('combined.mp4')
+
+            # Delete the original files to free up space
+            default_storage.delete(video_path)
+            default_storage.delete(audio_path)
+
+            # Process the video and audio files
+            response_data = deepgramApiHandler(video_file, audio_file)
             try:
                 audio_data = response_data['audio_result']
-                return render(request, 'result.html', {'data': audio_data, 'combined_url': output_path})
+                return render(request, 'result.html', {'data': audio_data, 'combined_url': combined_url})
             except Exception as e:
-                return render(request, 'result.html', {'combined_url': output_path})
+                return render(request, 'result.html', {'error': str(e), 'combined_url': combined_url})
         else:
             return HttpResponse("No video or audio file uploaded.", status=400)
     return HttpResponse("Invalid request", status=400)

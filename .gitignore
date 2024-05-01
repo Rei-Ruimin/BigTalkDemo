@@ -1,6 +1,7 @@
 staticfiles
 BigTalkDemo/tmp
 BigTalkDemo/staticfiles
+BigTalkDemo/media
 BigTalkDemo/node_modules
 
 tmp/
