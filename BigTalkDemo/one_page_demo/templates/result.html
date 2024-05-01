@@ -22,16 +22,29 @@
     </div>
     <div class="hero">
         <div class="hero_content-container">
+
             <div class="video-container">
-                <video id="video" src="{{combined_url}}" width="640" height="480"  controls></video>
+                <!-- <video id="video" src="{{combined_url}}" width="640" height="480" controls></video> -->
+                <video id="video" class="flip-video" controls>
+                    <source src="{{ combined_url }}" type="video/mp4">
+                </video>
             </div>
             <div>
                 <h1 class="title is-2 has-text-centered">Results</h1>
                 <div class="content is-medium" id="resultsContainer">
                     {% if data %}
+                    
                     <div class="result-section">
-                        <h4>Transcript: </h4>
-                        <p>{{ data.paragraph_transcript }}</p>
+                        <h4>Transcript with Sentiment Analysis: </h4>
+                        <div>
+                            <ul>
+                                {% for segment in data.segments %}
+                                    <li class="sentiment-{{segment.sentiment}}">
+                                        {{ segment.text }}</strong>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                     <div class="result-section">
                         <h4>Filler words count: </h4>
@@ -41,6 +54,16 @@
                         <h4>Words per minute: </h4>
                         <p>{{ data.words_per_minute }}</p>
                     </div>
+                    <div class="result-section">
+                        <h4>Summary: </h4>
+                        <p>{{ data.summary }}</p>
+                    </div>
+                    <div class="result-section">
+                        <h4>Transcript Only: </h4>
+                        <p>{{ data.paragraph_transcript }}</p>
+                    </div>
+                    
+                    
                     {% else %}
                     <p>No Audio Data Found</p>
                     {% endif %}

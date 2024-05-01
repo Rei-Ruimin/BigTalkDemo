@@ -2,16 +2,13 @@ import { initWebSocket, sendFrame, closeWebSocket } from './humeApiHandler.js';
 
 const video = document.getElementById('video');
 
-let videoStream = null;
 let audioStream = null;
-
+let videoStream = null;
 let sendInterval = null;
 
-let videoRecorder = null;
 let audioRecorder = null;
 let mediaRecorder = null;
 
-let videoRecordedBlobs = [];
 let audioRecordedBlobs = [];
 let recordedBlobs = [];
 
@@ -112,15 +109,6 @@ async function startVideo() {
                 recordedBlobs.push(event.data);
             }
         };
-
-        // Start recording
-        await mediaRecorder.start(500);
-        videoRecorder = new MediaRecorder(videoStream);
-        videoRecorder.ondataavailable = event => {
-            if (event.data && event.data.size > 0) {
-                videoRecordedBlobs.push(event.data);
-            }
-        };
         audioRecorder = new MediaRecorder(audioStream);
         audioRecorder.ondataavailable = event => {
             if (event.data && event.data.size > 0) {
@@ -129,7 +117,7 @@ async function startVideo() {
         };
         
         // Start video and audio recording simultaneously
-        await Promise.all([videoRecorder.start(500), audioRecorder.start(500)]);
+        await Promise.all([mediaRecorder.start(500), audioRecorder.start(500)]);
 
 
         const videoContainer = document.getElementById('videoContainer');
@@ -171,22 +159,18 @@ function startSendingVideo() {
 
 
 function stopVideo() {
-    Promise.all([videoRecorder.stop(), audioRecorder.stop()]).then(() => {
-        const videoBlob = new Blob(videoRecordedBlobs, { type: 'video/webm' });
-        const videoFile = new File([videoBlob], 'recorded.webm', { type: 'video/webm' });
-
+    Promise.all([mediaRecorder.stop(), audioRecorder.stop()]).then(() => {
         const audioBlob = new Blob(audioRecordedBlobs, { type: 'audio/wav' });
         const audioFile = new File([audioBlob], 'recorded.wav', { type: 'audio/wav' });
 
 
-        mediaRecorder.stop();
         const mediaBlob = new Blob(recordedBlobs, { type: 'video/mp4' });
         const mediaFile = new File([mediaBlob], 'recorded.mp4', { type: 'video/mp4' });
 
         stopTracksAndIntervals();
         closeWebSocket();
 
-        onVideoAndAudioRecordingEnd(videoFile, audioFile, mediaFile);
+        onVideoAndAudioRecordingEnd(audioFile, mediaFile);
     });
 }
 
@@ -206,7 +190,7 @@ function getCsrfToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]').value;
 }
 
-function onVideoAndAudioRecordingEnd(videoFile, audioFile, mediaFile) {
+function onVideoAndAudioRecordingEnd(audioFile, mediaFile) {
     const loadingBlock = document.getElementById('loadingBlock');
     loadingBlock.style.display = 'block';
 
@@ -214,7 +198,6 @@ function onVideoAndAudioRecordingEnd(videoFile, audioFile, mediaFile) {
     demoBlock.style.display = 'none';
 
     const formData = new FormData();
-    formData.append('videoFile', videoFile);
     formData.append('audioFile', audioFile);
     formData.append('mediaFile', mediaFile);
 

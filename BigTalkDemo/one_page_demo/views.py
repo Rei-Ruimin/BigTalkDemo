@@ -19,60 +19,37 @@ def result(request):
 
 def handle_video(request):
     if request.method == 'POST':
-        video_file = request.FILES.get('videoFile')
         audio_file = request.FILES.get('audioFile')
         media_file = request.FILES.get('mediaFile')
-        if video_file and audio_file:
+        if media_file and audio_file:
             
-
-            # Save video and audio files
-            video_path = default_storage.save('images/video.webm', video_file)
-            audio_path = default_storage.save('audios/audio.wav', audio_file)
-
             media_path = 'video/meida.mp4'
             if default_storage.exists(media_path):
                 default_storage.delete(media_path)
                 
             default_storage.save(media_path, media_file)
-
-            # Convert to absolute paths
-            abs_video_path = os.path.join(settings.MEDIA_ROOT, video_path)
-            abs_audio_path = os.path.join(settings.MEDIA_ROOT, audio_path)
-
-
-            # Create ffmpeg input streams
-            video_input = ffmpeg.input(abs_video_path)
-            audio_input = ffmpeg.input(abs_audio_path)
-            
-            # Output path within the media directory
-            output_path = os.path.join(settings.MEDIA_ROOT, 'combined.mp4')
-            # Combine video and audio streams
-            ffmpeg.concat(video_input, audio_input, v=1, a=1).output(output_path).run(overwrite_output=True)
-            # Process the video and audio files
             combined_url = default_storage.url(media_path)
 
-            # Delete the original files to free up space
-            default_storage.delete(video_path)
-            default_storage.delete(audio_path)
-
             # Process the video and audio files
-            response_data = deepgramApiHandler(video_file, audio_file)
+            response_data = deepgramApiHandler(audio_file)
+            # print(response_data)
             try:
                 audio_data = response_data['audio_result']
                 return render(request, 'result.html', {'data': audio_data, 'combined_url': combined_url})
             except Exception as e:
+                # print(e)
                 return render(request, 'result.html', {'error': str(e), 'combined_url': combined_url})
         else:
             return HttpResponse("No video or audio file uploaded.", status=400)
     return HttpResponse("Invalid request", status=400)
 
-def deepgramApiHandler(video_file, audio_file):
+def deepgramApiHandler(audio_file):
     # Prepare the result dictionary
-    result = {'video_status': f'Processed {video_file.name}'}
+    result = {}
 
     # Define the URL for the Deepgram API endpoint
     # Enable filler words & smart formatting
-    url = "https://api.deepgram.com/v1/listen?model=nova-2&filler_words=true&smart_format=true"
+    url = "https://api.deepgram.com/v1/listen?summarize=v2&smart_format=true&paragraphs=true&sentiment=true&language=en&model=nova-2"
 
     # Define the headers for the HTTP request
     headers = {
@@ -126,15 +103,23 @@ def process_deepgram_result(data):
                 total_words += paragraph["num_words"]
 
             # Get the paragraph transcript
-            paragraph_transcript = alternative["paragraphs"]["transcript"].strip()
+            paragraph_transcript = alternative["paragraphs"]["transcript"]
 
     # Calculate words per minute (WPM)
     wpm = total_words / (total_duration / 60) if total_duration > 0 else 0
-
 
     result = {'filler_words_count': total_filler_count,
               'words_per_minute': round(wpm, 2),
               'paragraph_transcript': paragraph_transcript}
     
+    result['summary'] = 'No summary available'
 
+    # Get summary
+    summary_data = data["results"]["summary"]
+    if summary_data['result'] == 'success':
+        result['summary'] = summary_data['short']
+
+    # Get sentiments
+    sentiments_data = data["results"]["sentiments"]
+    result['segments'] = sentiments_data['segments']
     return result
