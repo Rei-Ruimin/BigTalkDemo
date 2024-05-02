@@ -44,8 +44,7 @@ def deepgramApiHandler(audio_file):
 
     # Define the URL for the Deepgram API endpoint
     # Enable filler words & smart formatting
-    url = "https://api.deepgram.com/v1/listen?summarize=v2&smart_format=true&paragraphs=true&sentiment=true&language=en&model=nova-2"
-
+    url = "https://api.deepgram.com/v1/listen?summarize=v2&smart_format=true&paragraphs=true&filler_words=true&sentiment=true&language=en&model=nova-2"
     # Define the headers for the HTTP request
     headers = {
         "Authorization": f"Token {DEEPGRAM_API_KEY}",
@@ -61,6 +60,7 @@ def deepgramApiHandler(audio_file):
 
         # Store the transcription result in the result dictionary
         result['audio_result'] = process_deepgram_result(response)
+        print(result)
         result['audio_status'] = 'Transcription successful'
     except Exception as e:
         # Handle exceptions (e.g., API errors, network issues)
