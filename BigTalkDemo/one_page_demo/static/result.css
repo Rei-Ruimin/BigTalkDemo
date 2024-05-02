@@ -197,3 +197,7 @@ body {
     font-family: PP Neue Montreal;
     font-size: var(--font-size);
 }
+
+h1, h2, h3, h4 {
+    font-family: PP Neue Montreal;
+}
