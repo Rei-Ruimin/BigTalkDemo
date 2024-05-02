@@ -37,7 +37,7 @@ body {
 }
 
 h1 {
-    font-size: calc(var(--font-size) * 3);
+    font-size: calc(var(--font-size) * 2);
 }
 
 
