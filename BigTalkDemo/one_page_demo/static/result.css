@@ -167,6 +167,10 @@
     margin-bottom: 2.5rem;
 }
 
+.result-section > h4 {
+    font-weight: 500;
+}
+
 .sentiment-positive { 
     background-color: rgba(214, 238, 201, 0.7); 
 }
