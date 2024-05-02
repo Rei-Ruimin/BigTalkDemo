@@ -87,13 +87,11 @@
 
 .hero_image {
     z-index: 0;
-    opacity: .65;
+    opacity: .5;
     width: 70%;
     position: absolute;
-    top: 0%;
     bottom: 0%;
-    left: 50%;
-    right: 0%;
+    left: -20%;
 }
 
 @media screen and (max-width: 479px) {
@@ -162,11 +160,21 @@
 }
 
 .sentiment-positive { 
-    background-color: rgba(214, 238, 201, 0.3); 
+    background-color: rgba(214, 238, 201, 0.7); 
 }
 .sentiment-negative {  
-    background-color: rgba(255, 209, 209, 0.3); 
+    background-color: rgba(255, 209, 209, 0.5); 
 }
 .sentiment-neutral { 
-    background-color: rgba(252, 255, 195, 0.3);
+    background-color: rgba(252, 255, 195, 0.5);
+}
+
+li {
+    list-style-type: none;
+}
+
+.result-video {
+    background-color: white;
+    padding: 2%;
+    border-radius: 10px;
 }
