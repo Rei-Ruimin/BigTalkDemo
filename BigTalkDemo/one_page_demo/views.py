@@ -1,13 +1,8 @@
-from time import sleep
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-import json
+from django.http import HttpResponse
 import re
 import requests
-import ffmpeg
 from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
-import os
 from django.conf import settings
 
 DEEPGRAM_API_KEY = '17e4f14bc5e82df0ece99c45eec4755855b27860'
