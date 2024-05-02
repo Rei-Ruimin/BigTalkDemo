@@ -31,6 +31,7 @@
 body {
     font-family: PP Neue Montreal;
     font-size: var(--font-size);
+    background-color: var(--light-gray);
 }
 
 h1 {
@@ -78,10 +79,9 @@ h1 {
 }
 
 .hero {
-    padding: 25vh var(--side-padding) 5rem;
-    grid-column-gap: 3rem;
-    grid-row-gap: 3rem;
-    background-color: var(--light-gray);
+    /* padding: 25vh var(--side-padding) 5rem; */
+    /* grid-column-gap: 3rem;
+    grid-row-gap: 3rem; */
     background-image: none;
     background-size: auto;
     flex-flow: column;
