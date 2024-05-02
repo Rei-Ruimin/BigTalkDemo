@@ -81,18 +81,12 @@ h1 {
 }
 
 .hero {
-    /* padding: 25vh var(--side-padding) 5rem; */
-    /* grid-column-gap: 3rem;
-    grid-row-gap: 3rem; */
-    
     padding-top: 15vh;
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
     justify-content: center;
     align-items: flex-start;
-    width: 90vw;
-    height: 90vh;
     overflow: hidden;
 }
 
@@ -117,6 +111,20 @@ h1 {
     left: 50%;
     right: 0%;
 }
+
+#demoBlock {
+    display: flex; 
+    flex-direction: column;
+    row-gap: 2rem; 
+}
+
+
+
+
+
+
+
+
 
 @media screen and (max-width: 479px) {
     .navbar {
