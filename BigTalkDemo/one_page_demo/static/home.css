@@ -48,7 +48,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     width: 96%;
-    margin: 2%;
+    /* margin: 2%; */
     padding: 1% 1% 1% 2%;
     display: flex;
     position: fixed;
