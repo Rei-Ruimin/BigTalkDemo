@@ -3,7 +3,7 @@ import { initWebSocket, sendFrame, closeWebSocket } from './humeApiHandler.js';
 const video = document.getElementById('video');
 let videoStream = null;
 let audioStream = null;
-// let videoStream = null;
+
 let sendInterval = null;
 
 let audioRecorder = null;
