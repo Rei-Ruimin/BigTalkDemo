@@ -1,3 +1,8 @@
+@font-face {
+    font-family: PP Neue Montreal;
+    src: url(/BigTalkDemo/one_page_demo/assets/PPNeueMontreal-Medium.otf)
+}
+
 :root {
     --black: black;
     --letter-spacing: .5px;
@@ -16,7 +21,22 @@
     --paragraph-font-size: 14px;
     --contrast-gray: #e7e7e7;
     --purple: #b799ff;
+
+
+    /* VICKY   VICKY   VICKY   VICKY   VICKY */
+    --font-size: 16px;
 }
+
+
+body {
+    font-family: PP Neue Montreal;
+    font-size: var(--font-size);
+}
+
+h1 {
+    font-size: calc(var(--font-size) * 2);
+}
+
 
 .navbar {
     z-index: 1000;
