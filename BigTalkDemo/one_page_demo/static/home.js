@@ -153,7 +153,7 @@ function startSendingVideo() {
     }
 
     // TODO: get it back after debug
-    // sendInterval = setInterval(sendFrameToAPI, 100); // Send frames every 100ms
+    sendInterval = setInterval(sendFrameToAPI, 100); // Send frames every 100ms
 }
 
 

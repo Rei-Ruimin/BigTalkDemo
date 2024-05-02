@@ -1,4 +1,4 @@
-const HUME_API_KEY = '8ZLfLdXJolDS0rBfqcEacpLAnZPHqH37euCSdAz5uyOqGwn1';
+const HUME_API_KEY = 'eXnA5QOGa1cqARv1QCAl8mcN8X3gXH6QVIGWCn5JaUpCfkyD';
 let websocket = null;
 
 //export function initWebSocket(INPUT_API_KEY) {
