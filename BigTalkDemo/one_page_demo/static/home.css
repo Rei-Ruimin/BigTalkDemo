@@ -64,6 +64,7 @@ h1 {
     align-items: center;
     text-decoration: none;
     display: flex;
+    height: 10px;
 }
 
 .logo_text {
