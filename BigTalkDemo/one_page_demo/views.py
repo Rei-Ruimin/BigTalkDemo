@@ -60,7 +60,7 @@ def deepgramApiHandler(audio_file):
 
         # Store the transcription result in the result dictionary
         result['audio_result'] = process_deepgram_result(response)
-        print(result)
+        # print(result)
         result['audio_status'] = 'Transcription successful'
     except Exception as e:
         # Handle exceptions (e.g., API errors, network issues)
