@@ -4,8 +4,40 @@ import re
 import requests
 from django.core.files.storage import default_storage
 from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from openai import OpenAI
+
 
 DEEPGRAM_API_KEY = '17e4f14bc5e82df0ece99c45eec4755855b27860'
+CHATGPT_API_KEY = 'FAKE_API_KEY'
+
+@csrf_exempt
+def get_questions(request):
+    if request.method == 'POST':
+        job_description = request.POST.get('jobDescription')
+
+        client = OpenAI(api_key=CHATGPT_API_KEY)
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                "role": "user",
+                "content": f"Create a list of 5 questions for an interview with the following job description: {job_description}"
+                }
+            ],
+            # temperature=0.5,
+            # max_tokens=64,
+            # top_p=1
+        )
+        questions = response.choices[0].message.content
+        question_list = questions.split('\n')
+        print(question_list)
+        return JsonResponse({'questions': question_list})
+    
+
 def home(request):
     return render(request, 'home.html')
 

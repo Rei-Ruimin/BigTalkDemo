@@ -243,3 +243,56 @@ button.addEventListener('click', async function() {
         isRecording = false;
     }
 });
+
+
+document.getElementById('submitJobDescription').addEventListener('click', function() {
+    const jobDescription = document.getElementById('jobDescription').value;
+    document.getElementById('submitJobDescription').disabled = true;
+
+    fetch('/get_questions/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        body: new URLSearchParams({
+            'jobDescription': jobDescription
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        let html = '<h4>Mock Interview Questions: </h4>';
+        const questions = data['questions'];
+        questions.forEach(question => {
+            html += `<p>${question}</p>`;
+        });
+        document.getElementById('jobDescriptionBlock').innerHTML = html;
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion(index) {
+            document.getElementById('question-body').innerHTML = questions[index];
+            document.getElementById('next-button').addEventListener('click', nextQuestion);
+            document.getElementById('prev-button').addEventListener('click', previousQuestion);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length-1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Display the first question initially
+        displayQuestion(currentQuestionIndex);
+    })
+    .catch(error => console.error('Error:', error));
+});

@@ -34,6 +34,11 @@
                 <h1 class="title is-1">Loading...</h1>
             </div>
             <div id="demoBlock">
+                <div id="jobDescriptionBlock" style="text-align: center;">
+                    <div><label for="jobDescription">Enter your job description:</label></div>
+                    <div><textarea id="jobDescription" name="jobDescription" rows="4" cols="50"></textarea></div>
+                    <button class="button is-primary" id="submitJobDescription">Submit</button>
+                </div>
                 <div class="action-item" style="text-align: center;">
                     <p>Click "Start Recording" to get started</p>
                 </div>
@@ -41,7 +46,13 @@
                 <div class="recordingContainer">
                     <div id="videoContainer">
                         <video id="video" width="640" height="480" autoplay></video>
-                        <div id="prompt-question">Could you tell me about yourself and describe your background in brief?</div>
+                        <div id="prompt-question">
+                            <div id="question-body"></div>
+                            <div class="buttons">
+                                <button id="prev-button" class="button">Previous</button>
+                                <button id="next-button" class="button">Next</button>
+                            </div>
+                        </div>
                         <div id="current-emotion">Current Emotion: <span id="top-expressions">Undefined</span></div>
                     </div>
                     <div class="controls has-text-centered">
