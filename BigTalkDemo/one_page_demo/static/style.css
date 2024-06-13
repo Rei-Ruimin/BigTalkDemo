@@ -1,0 +1,8 @@
+:root {
+    /* colors */
+    --primary-color: tomato;
+}
+
+body {
+    background-color: var(--primary-color);
+}
